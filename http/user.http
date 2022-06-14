@@ -1,0 +1,40 @@
+###
+POST {{host}}/users/create
+Content-Type: application/json
+
+{
+  "fullname": "John Doe3",
+  "email": "john.doe3@example.com",
+  "enabled": true,
+  "attributes": {
+    "systems": [
+      "CBS",
+      "ANY"
+    ]
+  }
+}
+
+###
+GET {{host}}/users/{{user_id}}
+
+###
+GET {{host}}/users/list?limit=20&offset=0
+
+###
+PUT {{host}}/users/{{user_id}}
+Content-Type: application/json
+
+{
+  "fullname": "John Doe",
+  "email": "john.doe@example.com",
+  "enabled": true,
+  "attributes": {
+    "systems": [
+      "CBS",
+      "ANY"
+    ]
+  }
+}
+
+###
+DELETE {{host}}/users/{{user_id}}

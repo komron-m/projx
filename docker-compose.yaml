@@ -1,0 +1,11 @@
+version: '3.1'
+
+services:
+  projx_postgres:
+    image: postgres:latest
+    ports:
+    - "${DB_PORT}:5432"
+    environment:
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_NAME}
