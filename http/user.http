@@ -3,8 +3,8 @@ POST {{host}}/users/create
 Content-Type: application/json
 
 {
-  "fullname": "John Doe3",
-  "email": "john.doe3@example.com",
+  "fullname": "John Doe",
+  "email": "john.doe@example.com",
   "enabled": true,
   "attributes": {
     "systems": [
