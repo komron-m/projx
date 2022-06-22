@@ -37,6 +37,6 @@ rollback: wait_db status
 wait_db:
 	./wait-for.sh ${DB_HOST}:${DB_PORT}
 
-fresh : rebuild gen
+fresh : gen rebuild
 
 .PHONY: install gen start stop status rebuild migrate rollback wait_db fresh
