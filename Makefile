@@ -1,22 +1,18 @@
 include .env
 export
 
-init:
+install:
 	# install CLI for managing db migrations
 	go get -v github.com/rubenv/sql-migrate/...
-
 	# install CLI for generating db queries
 	go install github.com/kyleconroy/sqlc/cmd/sqlc@latest
-
 	# install all application dependencies
 	go mod tidy
 
-	# initialize docker stuff
-	docker-compose up -d
-
 # run all code generation tools
-gen:
+gen: wait_db
 	sqlc generate
+	sqlc compile
 
 # starting app after closing IDE
 start:
@@ -25,19 +21,22 @@ start:
 stop:
 	docker-compose stop
 
+status: wait_db
+	sql-migrate status
+
 rebuild:
 	docker-compose down -v
-	docker-compose up -d
+	docker-compose up --build -d
 
-status:
-	sql-migrate status
-
-migrate:
+migrate: wait_db status
 	sql-migrate up
-	sql-migrate status
 
-rollback:
+rollback: wait_db status
 	sql-migrate down
-	sql-migrate status
 
-.PHONY: init start status stop rebuild migrate
+wait_db:
+	./wait-for.sh ${DB_HOST}:${DB_PORT}
+
+fresh : rebuild gen
+
+.PHONY: install gen start stop status rebuild migrate rollback wait_db fresh

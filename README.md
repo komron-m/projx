@@ -10,10 +10,13 @@ cd projx
 # copy and change env variables if needed
 cp .env.example .env
 
-# init the application
-make init
+# install tools and app dependencies
+make install
 
-# run migrations
+# build fresh docker images and run services
+make fresh
+
+# apply migrations
 make migrate
 ```
 

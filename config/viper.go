@@ -18,5 +18,8 @@ func NewViper() (*viper.Viper, error) {
 	if err != nil {         // Handle errors reading the config file
 		return nil, err
 	}
+
+	v.AutomaticEnv()
+
 	return v, nil
 }
