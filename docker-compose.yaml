@@ -1,7 +1,7 @@
 version: '3.1'
 
 services:
-  projx_postgres:
+  postgres:
     image: postgres:latest
     ports:
     - "${DB_PORT}:5432"
@@ -9,3 +9,22 @@ services:
       POSTGRES_USER: ${DB_USER}
       POSTGRES_PASSWORD: ${DB_PASSWORD}
       POSTGRES_DB: ${DB_NAME}
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U ${DB_USER} -d ${DB_NAME}" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+  
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+    - "4000:4000"
+    environment:
+      DB_HOST: postgres
+    depends_on:
+    - postgres
+    entrypoint: [ "/app/wait-for.sh", "postgres:5432", "--" ]
+    command: [ "/app/main" ]
